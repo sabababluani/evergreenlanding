@@ -47,7 +47,6 @@ const PartnersSection = () => {
           {partners.map((partner, index) => (
             <div key={index} className="group h-[280px] [perspective:1000px]">
               <div className="relative h-full w-full transition-all duration-500 [transform-style:preserve-3d] group-hover:[transform:rotateY(180deg)]">
-                {/* FRONT SIDE */}
                 <div className="absolute inset-0 bg-white rounded-3xl flex items-center justify-center p-8 shadow-sm [backface-visibility:hidden]">
                   <div className="relative w-full h-14">
                     <Image
