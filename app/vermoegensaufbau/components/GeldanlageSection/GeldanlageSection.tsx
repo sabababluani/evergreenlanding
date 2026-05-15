@@ -1,6 +1,7 @@
 import React from "react";
 import { ShieldCheck, Smile, Lock } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 
 const benefitCards = [
   {
@@ -46,12 +47,11 @@ const GeldanlageSection = () => {
           </p>
 
           <div className="flex flex-col sm:flex-row justify-center gap-4 pt-4">
-            <button className="bg-[#ff9021] hover:bg-[#fb8108] text-[#0a1a0f] font-bold py-4 px-10 rounded-full transition-all">
-              Jetzt starten
-            </button>
-            <button className="bg-transparent border border-[#0a1a0f] text-[#0a1a0f] font-bold py-4 px-10 rounded-full hover:bg-[#0a1a0f] hover:text-white transition-all">
-              Gespräch buchen
-            </button>
+            <Link href="/register">
+              <button className="bg-[#ff9021] hover:bg-[#fb8108] text-[#0a1a0f] font-bold py-4 px-10 rounded-full transition-all">
+                Jetzt starten
+              </button>
+            </Link>
           </div>
         </div>
 

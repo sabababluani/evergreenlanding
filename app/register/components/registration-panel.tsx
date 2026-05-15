@@ -4,7 +4,6 @@ import { parseISO, format } from "date-fns";
 import { useState, useEffect } from "react";
 import { ArrowLeft, Check, ChevronDown, CalendarDays } from "lucide-react";
 
-import { cn } from "@/lib/utils";
 import type { Country } from "@/app/api/types/countries";
 import type { Language } from "@/app/api/types/languages";
 import { postRegistration } from "@/app/api/auth/postRegistration";
@@ -35,7 +34,9 @@ import {
   CommandList,
 } from "../../components/ui/command";
 import { Calendar } from "../../components/ui/calendar";
-import { Link, useRouter } from "@/i18n/navigation";
+import { useRouter } from "next/navigation";
+import Link from "next/link";
+import { cn } from "@/app/lib/utils";
 
 interface RegistrationFormProps {
   countries: Country[];

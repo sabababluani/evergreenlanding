@@ -1,4 +1,4 @@
-import React from "react";
+import Link from "next/link";
 
 const SavingsSection = () => {
   return (
@@ -22,9 +22,11 @@ const SavingsSection = () => {
             </p>
 
             <div className="pt-4">
-              <button className="bg-[#f59e0b] hover:bg-[#d97706] text-white font-bold py-4 px-8 rounded-full shadow-lg transition-all transform hover:scale-105">
-                Jetzt Zinsen verdienen
-              </button>
+              <Link href="/register">
+                <button className="bg-[#f59e0b] hover:bg-[#d97706] text-white font-bold py-4 px-8 rounded-full shadow-lg transition-all transform hover:scale-105">
+                  Jetzt Zinsen verdienen
+                </button>
+              </Link>
             </div>
           </div>
 

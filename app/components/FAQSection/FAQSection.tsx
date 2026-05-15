@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 
 const FAQSection = () => {
   const [openIndex, setOpenIndex] = useState<number | null>(0); // First one open by default
@@ -104,9 +105,12 @@ const FAQSection = () => {
             </li>
           </ul>
           <p className="pt-2">
-            <a href="#" className="text-[#B36B2F] font-semibold underline">
+            <Link
+              href="/hilfe"
+              className="text-[#B36B2F] font-semibold underline"
+            >
               Hier findest du mehr zum Thema.
-            </a>
+            </Link>
           </p>
         </div>
       ),
@@ -169,12 +173,12 @@ const FAQSection = () => {
 
           {/* Footer Link */}
           <div className="text-center pt-8">
-            <a
-              href="#"
+            <Link
+              href="/hilfe"
               className="text-[#B36B2F] font-bold underline underline-offset-4 hover:text-[#8a5224]"
             >
               Alle Fragen ansehen
-            </a>
+            </Link>
           </div>
         </div>
       </div>

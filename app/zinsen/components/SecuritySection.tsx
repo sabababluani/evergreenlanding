@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import React from "react";
 
 const SecuritySection = () => {
@@ -34,9 +35,11 @@ const SecuritySection = () => {
             </p>
 
             <div className="pt-4">
-              <button className="bg-[#f59e0b] hover:bg-[#d97706] text-white font-bold py-4 px-10 rounded-full shadow-lg shadow-orange-100 transition-all">
-                Jetzt Zinsen verdienen
-              </button>
+              <Link href="/register">
+                <button className="bg-[#f59e0b] hover:bg-[#d97706] text-white font-bold py-4 px-10 rounded-full shadow-lg shadow-orange-100 transition-all">
+                  Jetzt Zinsen verdienen
+                </button>
+              </Link>
             </div>
           </div>
         </div>

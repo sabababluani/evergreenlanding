@@ -20,7 +20,7 @@ import {
 } from "../../components/ui/card";
 import { Label } from "../../components/ui/label";
 import { Input } from "../../components/ui/input";
-import { Link } from "@/i18n/navigation";
+import Link from "next/link";
 
 const DASHBOARD_BASE_URL = process.env.NEXT_PUBLIC_DASHBOARD_BASE_URL;
 const redirectToDashboard = (language: string, authkey: string) => {

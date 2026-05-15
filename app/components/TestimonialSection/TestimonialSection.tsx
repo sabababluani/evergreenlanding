@@ -1,7 +1,7 @@
 import React from "react";
 import { Star } from "lucide-react";
+import Link from "next/link";
 
-// SVG Components
 const GoogleIcon = () => (
   <svg
     viewBox="0 0 24 24"
@@ -65,36 +65,16 @@ const testimonials = [
 const TestimonialSection = () => {
   return (
     <section className="bg-[#fcfcfc] py-16 px-6 font-sans relative">
-      {/* Floating Newsletter Label */}
-      {/* <div className="hidden lg:flex fixed right-0 top-1/2 -translate-y-1/2 bg-[#0a1a0f] text-white py-4 px-2 rounded-l-lg flex-col items-center gap-3 z-50 cursor-pointer">
-        <svg
-          className="w-5 h-5"
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth="2"
-            d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
-          />
-        </svg>
-        <span className="[writing-mode:vertical-lr] rotate-180 text-[10px] font-bold uppercase tracking-widest">
-          Newsletter abonnieren
-        </span>
-      </div> */}
-
       <div className="max-w-6xl mx-auto text-center">
         <h2 className="text-4xl md:text-6xl text-[#0a1a0f] mb-8 font-serif leading-tight">
           Wenn sich Investieren{" "}
           <span className="font-bold italic">richtig anfühlt</span>
         </h2>
-
-        <button className="bg-[#ff9021] hover:bg-[#fb8108] text-[#0a1a0f] font-bold py-4 px-12 rounded-full transition-all duration-200 mb-16 text-lg">
-          Jetzt starten
-        </button>
-
+        <Link href={"/register"}>
+          <button className="bg-[#ff9021] hover:bg-[#fb8108] text-[#0a1a0f] font-bold py-4 px-12 rounded-full transition-all duration-200 mb-16 text-lg">
+            Jetzt starten
+          </button>
+        </Link>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {testimonials.map((item, index) => (
             <div

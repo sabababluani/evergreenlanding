@@ -1,3 +1,4 @@
+import Link from "next/link";
 import React from "react";
 
 const CheckIcon = () => (
@@ -61,9 +62,11 @@ const AppFeaturesSection = () => {
               übersichtlich.
             </p>
             <div>
-              <button className="bg-[#ff9021] hover:bg-[#fb8108] text-[#0a1a0f] font-bold py-4 px-12 rounded-full transition-all text-lg shadow-sm">
-                Jetzt starten
-              </button>
+              <Link href={"/register"}>
+                <button className="bg-[#ff9021] hover:bg-[#fb8108] text-[#0a1a0f] font-bold py-4 px-12 rounded-full transition-all text-lg shadow-sm">
+                   Jetzt starten
+                </button>
+              </Link>
             </div>
           </div>
 

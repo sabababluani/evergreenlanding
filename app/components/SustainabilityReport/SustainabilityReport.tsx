@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 
 const SustainabilityReport = () => {
   return (
@@ -28,12 +29,12 @@ const SustainabilityReport = () => {
           </p>
 
           <div className="pt-2">
-            <a
-              href="#"
+            <Link
+              href="/register"
               className="text-[#B36B2F] font-semibold text-lg underline underline-offset-8 hover:text-[#8a5224] transition-all"
             >
               Jetzt reinlesen
-            </a>
+            </Link>
           </div>
         </div>
       </div>

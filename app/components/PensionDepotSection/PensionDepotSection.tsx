@@ -1,3 +1,4 @@
+import Link from "next/link";
 import React from "react";
 
 // SVGs for the cards
@@ -120,10 +121,11 @@ const PensionDepotSection = () => {
 
         {/* Footer CTA */}
         <div className="space-y-8">
-          <button className="bg-[#ff9021] hover:bg-[#fb8108] text-[#0a1a0f] font-bold py-4 px-12 rounded-full transition-all text-lg">
-            Newsletter abonnieren
-          </button>
-
+          <Link href="/register">
+            <button className="bg-[#ff9021] hover:bg-[#fb8108] text-[#0a1a0f] font-bold py-4 px-12 rounded-full transition-all text-lg">
+              Newsletter abonnieren
+            </button>
+          </Link>
           <p className="text-gray-400 text-xs max-w-md mx-auto">
             Das geförderte Altersvorsorgedepot soll ab dem 1. Januar 2027
             starten. Wir informieren dich, sobald es losgeht.
