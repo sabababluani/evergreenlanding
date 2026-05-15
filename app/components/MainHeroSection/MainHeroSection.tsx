@@ -1,5 +1,6 @@
 import React from "react";
 import Image from "next/image";
+import Link from "next/link";
 
 const MainHeroSection = () => {
   return (
@@ -18,9 +19,7 @@ const MainHeroSection = () => {
           </p>
         </div>
 
-        {/* CTA Feature Cards */}
         <div className="mt-12 grid grid-cols-1 md:grid-cols-2 gap-6 w-full max-w-4xl z-10">
-          {/* Card 1: Kurzfristig */}
           <div className="bg-white rounded-[30px] p-6 flex items-center shadow-sm hover:shadow-md transition-shadow cursor-pointer group">
             <div className="w-12 h-12 rounded-full bg-[#FFCE50] flex items-center justify-center text-xl shrink-0">
               %
@@ -66,11 +65,11 @@ const MainHeroSection = () => {
             </div>
           </div>
         </div>
-
-        <button className="mt-12 px-12 py-4 bg-[#FF931E] hover:bg-[#e6841a] text-[#0B2B1D] font-bold rounded-full transition-all text-lg z-10">
-          Jetzt starten
-        </button>
-
+        <Link href={"/register"}>
+          <button className="mt-12 px-12 py-4 bg-[#FF931E] hover:bg-[#e6841a] text-[#0B2B1D] font-bold rounded-full transition-all text-lg z-10">
+            Jetzt starten
+          </button>
+        </Link>
         <div className="relative mt-16 w-full max-w-4xl h-64 md:h-96">
           <Image
             src="/mainHero.png"
