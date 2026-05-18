@@ -1,3 +1,4 @@
+import Link from "next/link";
 import React from "react";
 
 const StepsSection = () => {
@@ -80,9 +81,9 @@ const StepsSection = () => {
       </div>
 
       <div className="flex justify-center">
-        <button className="bg-[#ff9922] hover:bg-[#e68a1f] text-slate-900 font-bold py-3 px-10 rounded-full transition-colors shadow-md">
+        <Link href={"/register"} className="bg-[#ff9922] hover:bg-[#e68a1f] text-slate-900 font-bold py-3 px-10 rounded-full transition-colors shadow-md">
           Kinderdepot eröffnen
-        </button>
+        </Link>
       </div>
     </section>
   );

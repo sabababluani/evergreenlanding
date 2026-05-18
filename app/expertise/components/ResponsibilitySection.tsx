@@ -3,7 +3,7 @@ import { Mail } from "lucide-react";
 
 export default function ResponsibilitySection() {
   return (
-    <section className="relative bg-[#f3f3f3] px-4 py-16">
+    <section className="relative px-4 py-16">
       <div className="mx-auto grid max-w-7xl grid-cols-1 items-center gap-16 lg:grid-cols-2">
         {/* LEFT */}
         <div>

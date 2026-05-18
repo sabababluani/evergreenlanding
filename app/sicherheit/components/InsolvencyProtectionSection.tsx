@@ -2,7 +2,7 @@ import Image from "next/image";
 
 export default function InsolvencyProtectionSection() {
   return (
-    <section className="bg-[#f3f3f3] px-4 py-16">
+    <section className="px-4 py-16">
       <div className="mx-auto grid max-w-7xl grid-cols-1 items-center gap-20 lg:grid-cols-2">
         {/* LEFT */}
         <div>

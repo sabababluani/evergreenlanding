@@ -1,3 +1,4 @@
+import Link from "next/link";
 import React from "react";
 
 const KidsDepotHeroSecond = () => {
@@ -22,9 +23,9 @@ const KidsDepotHeroSecond = () => {
             von 12.096 Euro nutzen.
           </p>
 
-          <button className="bg-[#ff9922] hover:bg-[#e68a1f] text-slate-900 font-bold py-4 px-8 rounded-full transition-colors duration-200">
+          <Link href={"/register"} className="bg-[#ff9922] hover:bg-[#e68a1f] text-slate-900 font-bold py-4 px-8 rounded-full transition-colors duration-200">
             Kinderdepot eröffnen
-          </button>
+          </Link>
         </div>
 
         {/* Right Card Side */}

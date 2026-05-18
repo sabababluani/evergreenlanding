@@ -30,7 +30,6 @@ export default function Header() {
     };
 
     window.addEventListener("scroll", handleScroll);
-
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
@@ -47,8 +46,19 @@ export default function Header() {
             : "bg-transparent px-4 lg:px-6 py-4"
         }`}
       >
-        {/* Left Spacer Desktop */}
-        <div className="hidden lg:block w-[180px]" />
+        {/* Left: Logo (desktop) — always in DOM, fades in/out */}
+        <div className="hidden lg:block w-[180px]">
+          <Link
+            href="/"
+            className={`text-3xl font-black tracking-tight text-black transition-all duration-300 ${
+              scrolled
+                ? "opacity-100 pointer-events-auto"
+                : "opacity-0 pointer-events-none"
+            }`}
+          >
+            evergreen
+          </Link>
+        </div>
 
         {/* Mobile Menu Button */}
         <button
@@ -60,20 +70,22 @@ export default function Header() {
 
         {/* Center */}
         <div className="flex flex-col items-center">
-          {/* Logo */}
-          {!scrolled && (
-            <Link
-              href="/"
-              className="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight text-black"
-            >
-              evergreen
-            </Link>
-          )}
+          {/* Logo (centered, non-scrolled) — always in DOM, fades in/out */}
+          <Link
+            href="/"
+            className={`text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight text-black transition-all duration-300 lg:block hidden ${
+              scrolled
+                ? "opacity-0 pointer-events-none h-0 overflow-hidden mb-0"
+                : "opacity-100 pointer-events-auto mb-0"
+            }`}
+          >
+            evergreen
+          </Link>
 
           {/* Desktop Nav */}
           <nav
-            className={`hidden lg:flex items-center gap-10 ${
-              scrolled ? "" : "mt-6"
+            className={`hidden lg:flex items-center gap-10 transition-all duration-300 ${
+              scrolled ? "mt-0" : "mt-6"
             }`}
           >
             {/* Investieren */}
@@ -174,9 +186,15 @@ export default function Header() {
           </nav>
         </div>
 
-        {/* Desktop Buttons */}
-        {!scrolled ? (
-          <div className="hidden lg:flex items-center gap-4">
+        {/* Right: CTA buttons — always in DOM, fade in/out */}
+        <div className="hidden lg:flex items-center gap-4 w-[300px] justify-end">
+          <div
+            className={`flex items-center gap-4 transition-all duration-300 ${
+              scrolled
+                ? "opacity-0 pointer-events-none"
+                : "opacity-100 pointer-events-auto"
+            }`}
+          >
             <Link
               href="/login"
               className="rounded-full bg-[#002b1b] px-8 py-4 text-lg font-semibold text-white transition hover:opacity-90"
@@ -191,9 +209,7 @@ export default function Header() {
               Jetzt starten
             </Link>
           </div>
-        ) : (
-          <div className="hidden lg:block w-[180px]" />
-        )}
+        </div>
       </div>
 
       {/* Mobile Menu */}

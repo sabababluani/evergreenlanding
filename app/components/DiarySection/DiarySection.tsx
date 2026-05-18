@@ -41,15 +41,6 @@ const DiarySection = () => {
               ermögliche dir einen Blick hinter die Kulissen eines nachhaltigen
               Finanzunternehmens.
             </p>
-
-            <div className="pt-2">
-              <a
-                href="#"
-                className="text-[#B36B2F] font-semibold underline underline-offset-4 hover:text-[#8a5224] transition-colors"
-              >
-                Zum Schmökern geht's hier entlang
-              </a>
-            </div>
           </div>
         </div>
       </div>

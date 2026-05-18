@@ -1,12 +1,13 @@
 import Image from "next/image";
 import { Mail, Phone, CircleHelp } from "lucide-react";
+import Link from "next/link";
 
 export default function SupportSection() {
   return (
-    <section className="bg-[#f3f3f3] px-4 py-10">
+    <section className="px-4 py-10">
       <div className="mx-auto grid max-w-7xl grid-cols-1 items-center gap-14 lg:grid-cols-2">
         {/* LEFT */}
-        <div>
+        <div className="flex flex-col items-start justify-center">
           <h2 className="text-[42px] font-light leading-[0.95] tracking-[-0.05em] text-[#001f14] md:text-[64px]">
             Wir sind{" "}
             <span className="font-serif font-bold tracking-[-0.03em]">
@@ -21,9 +22,9 @@ export default function SupportSection() {
             Seite.
           </p>
 
-          <button className="mt-14 rounded-full border-2 border-[#001f14] px-12 py-4 text-[22px] font-semibold text-[#001f14] transition hover:bg-[#001f14] hover:text-white">
+          <Link href={"/register"} className="mt-14 rounded-full border-2 border-[#001f14] px-12 py-4 text-[22px] font-semibold text-[#001f14] transition hover:bg-[#001f14] hover:text-white">
             Gespräch buchen
-          </button>
+          </Link>
         </div>
 
         {/* RIGHT */}

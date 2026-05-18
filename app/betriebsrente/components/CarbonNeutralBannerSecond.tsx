@@ -28,13 +28,6 @@ const CarbonNeutralBannerSecond = () => {
             Umsetzung bis zur Kostenstruktur, findest du auf unserer
             Arbeitgeber-Seite.{" "}
           </span>
-
-          <Link
-            href="#"
-            className="mt-6 text-[#B36B2F] font-semibold text-lg underline underline-offset-8 hover:text-[#8a5224] transition-colors"
-          >
-            Zur Arbeitgeber-Seite
-          </Link>
         </div>
 
         <div className="absolute right-4 md:right-12 top-1/2 -translate-y-1/2 w-24 h-32 md:w-40 md:h-56 opacity-80 pointer-events-none">

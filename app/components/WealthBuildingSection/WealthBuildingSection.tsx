@@ -1,6 +1,7 @@
 import React from "react";
 import { ArrowUpRight, PieChart, Sparkles } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 
 const WealthBuildingSection = () => {
   return (
@@ -23,9 +24,9 @@ const WealthBuildingSection = () => {
           </p>
 
           <div className="pt-4">
-            <button className="border border-[#0a1a0f] text-[#0a1a0f] font-bold py-3 px-10 rounded-full hover:bg-[#0a1a0f] hover:text-white transition-all duration-300">
+            <Link href={"/vermoegensaufbau"} className="border border-[#0a1a0f] text-[#0a1a0f] font-bold py-3 px-10 rounded-full hover:bg-[#0a1a0f] hover:text-white transition-all duration-300">
               Mehr erfahren
-            </button>
+            </Link>
           </div>
         </div>
 

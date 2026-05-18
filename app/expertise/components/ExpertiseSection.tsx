@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { Mail } from "lucide-react";
+import Link from "next/link";
 
 const experts = [
   {
@@ -40,7 +41,7 @@ export default function ExpertsSection() {
         <div className="mt-12 grid gap-8 md:grid-cols-3">
           {experts.map((expert) => (
             <div key={expert.name} className="group [perspective:1200px]">
-              <div className="relative h-[390px] rounded-[1.8rem] transition-transform duration-700 [transform-style:preserve-3d] group-hover:[transform:rotateY(180deg)]">
+              <div className="relative h-[420px] rounded-[1.8rem] transition-transform duration-700 [transform-style:preserve-3d] group-hover:[transform:rotateY(180deg)]">
                 {/* FRONT */}
                 <div className="absolute inset-0 rounded-[1.8rem] bg-[#fff1bf] p-5 [backface-visibility:hidden]">
                   <div className="relative h-[300px] overflow-hidden rounded-[1.4rem]">
@@ -53,7 +54,7 @@ export default function ExpertsSection() {
                   </div>
 
                   <div className="mt-6 text-center">
-                    <h3 className="text-[24px] font-bold tracking-[-0.04em] text-[#001f14]">
+                    <h3 className="text-[24px] font-bold text-[#001f14]">
                       {expert.name}
                     </h3>
                     <p className="mt-1 text-[18px] font-semibold text-[#6f756f]">
@@ -74,13 +75,9 @@ export default function ExpertsSection() {
         </div>
 
         <div className="mt-14 flex flex-col items-center justify-center gap-4 sm:flex-row">
-          <button className="rounded-full bg-[#ff9514] px-14 py-4 text-[20px] font-bold text-[#001f14]">
+          <Link href={"/register"} className="rounded-full bg-[#ff9514] px-14 py-4 text-[20px] font-bold text-[#001f14]">
             Jetzt starten
-          </button>
-
-          <button className="rounded-full border-2 border-[#001f14] px-14 py-4 text-[20px] font-bold text-[#001f14]">
-            Gespräch buchen
-          </button>
+          </Link>
         </div>
       </div>
 

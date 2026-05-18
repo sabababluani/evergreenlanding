@@ -2,14 +2,15 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect, useState } from "react";
-import { Button } from "react-day-picker";
+import { Button } from "../../components/ui/button";
 import { useForm } from "react-hook-form";
 import z from "zod";
 import { ArrowLeft } from "lucide-react";
-import { useLocale, useTranslations } from "next-intl";
+
 import { LoginCredentials } from "@/app/api/types/auth";
 import { postLogin } from "@/app/api/auth/postLogin";
 import { postLoginForRedirect } from "@/app/api/auth/postLoginForRedirect";
+
 import {
   Card,
   CardContent,
@@ -18,26 +19,31 @@ import {
   CardHeader,
   CardTitle,
 } from "../../components/ui/card";
+
 import { Label } from "../../components/ui/label";
 import { Input } from "../../components/ui/input";
+
 import Link from "next/link";
 
 const DASHBOARD_BASE_URL = process.env.NEXT_PUBLIC_DASHBOARD_BASE_URL;
+
 const redirectToDashboard = (language: string, authkey: string) => {
   window.location.href = `${DASHBOARD_BASE_URL}/${language}/confirm-auth?authkey=${authkey}`;
 };
 
 const LoginCard = () => {
-  const t = useTranslations();
-  const language = useLocale();
+  const language = "de";
   const [error, setError] = useState("");
 
   const loginSchema = z.object({
     emailOrUsername: z
       .string()
-      .email(t("login.validation.emailInvalid"))
-      .or(z.string().min(3, t("login.validation.usernameTooShort"))),
-    password: z.string().min(1, t("login.validation.passwordTooShort")),
+      .email("Ungültiges E-Mail-Format")
+      .or(z.string().min(3, "Benutzername ist zu kurz")),
+
+    password: z
+      .string()
+      .min(8, "Passwort muss mindestens 8 Zeichen lang sein"),
   });
 
   type FormData = z.infer<typeof loginSchema>;
@@ -71,37 +77,42 @@ const LoginCard = () => {
     const response = await postLogin(credentials);
 
     if (!response.success) {
-      setError(t("login.loginFailed"));
+      setError(
+        "Anmeldung fehlgeschlagen, bitte versuche es erneut",
+      );
       return;
     }
 
     const responseForDirect = await postLoginForRedirect();
     const authkey = responseForDirect.data;
+
     if (authkey) {
       redirectToDashboard(language, authkey);
     } else {
-      setError(t("login.redirectFailed"));
+      setError(
+        "Login-Weiterleitung fehlgeschlagen, bitte versuche es erneut",
+      );
     }
   };
 
   return (
-    <div className="flex-1 p-8 lg:p-12 flex flex-col justify-center bg-white text-slate-900">
+    <div className="flex-1 p-8 lg:p-12 flex flex-col justify-center bg-white text-[#0B2B1D]">
       <Link
-        href={`/`}
-        className="inline-flex items-center text-slate-500 hover:text-black transition-colors mb-8"
+        href="/"
+        className="inline-flex items-center text-[#4A4A4A] hover:text-[#0B2B1D] transition-colors mb-8"
       >
         <ArrowLeft className="w-4 h-4 mr-2" />
-        {t("login.backToHome")}
+        Zurück zur Startseite
       </Link>
 
-      <Card className="w-full bg-white border border-slate-200 shadow-xl text-slate-900 rounded-2xl">
+      <Card className="w-full bg-white border border-[#0B2B1D]/10 shadow-sm text-[#0B2B1D] rounded-[30px]">
         <CardHeader className="text-center">
-          <CardTitle className="text-3xl font-bold text-black">
-            {t("login.signIn")}
+          <CardTitle className="text-3xl font-serif text-[#0B2B1D]">
+            Anmelden
           </CardTitle>
 
-          <CardDescription className="text-slate-500">
-            {t("login.welcomeBack")}
+          <CardDescription className="text-[#4A4A4A]">
+            Willkommen zurück bei Evergreen
           </CardDescription>
         </CardHeader>
 
@@ -113,19 +124,21 @@ const LoginCard = () => {
           )}
 
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-            {/* Email / Username */}
             <div className="space-y-2">
-              <Label htmlFor="emailOrUsername" className="text-slate-700">
-                {t("login.emailOrUsername")}
+              <Label
+                htmlFor="emailOrUsername"
+                className="text-[#0B2B1D]"
+              >
+                E-Mail oder Benutzername
               </Label>
 
               <Input
                 id="emailOrUsername"
                 type="text"
                 {...register("emailOrUsername")}
-                placeholder={t("login.placemail")}
+                placeholder="E-Mail-Adresse eingeben"
                 disabled={isSubmitting}
-                className="border-slate-300 text-black placeholder:text-slate-400 focus:border-black focus:ring-black"
+                className="border-[#0B2B1D]/20 text-[#0B2B1D] placeholder:text-[#4A4A4A]/60 focus:border-[#0B2B1D] focus:ring-[#0B2B1D]/20 rounded-xl"
               />
 
               {errors.emailOrUsername && (
@@ -135,19 +148,18 @@ const LoginCard = () => {
               )}
             </div>
 
-            {/* Password */}
             <div className="space-y-2">
-              <Label htmlFor="password" className="text-slate-700">
-                {t("login.password")}
+              <Label htmlFor="password" className="text-[#0B2B1D]">
+                Passwort
               </Label>
 
               <Input
                 id="password"
                 type="password"
                 {...register("password")}
-                placeholder={t("login.placepass")}
+                placeholder="Passwort eingeben"
                 disabled={isSubmitting}
-                className="border-slate-300 text-black placeholder:text-slate-400 focus:border-black focus:ring-black"
+                className="border-[#0B2B1D]/20 text-[#0B2B1D] placeholder:text-[#4A4A4A]/60 focus:border-[#0B2B1D] focus:ring-[#0B2B1D]/20 rounded-xl"
               />
 
               {errors.password && (
@@ -157,32 +169,31 @@ const LoginCard = () => {
               )}
             </div>
 
-            {/* Submit Button */}
             <Button
               type="submit"
               disabled={isSubmitting}
-              className="w-full bg-black hover:bg-slate-900 text-white font-semibold py-3 rounded-lg transition shadow-md"
+              className="w-full bg-[#FF931E] hover:bg-[#e6841a] text-[#0B2B1D] font-bold py-3 rounded-full transition-all shadow-sm"
             >
               {isSubmitting ? (
                 <div className="flex items-center justify-center">
-                  <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
-                  {t("login.signingIn")}
+                  <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-[#0B2B1D] mr-2"></div>
+                  Anmeldung läuft...
                 </div>
               ) : (
-                t("login.signIn")
+                "Anmelden"
               )}
             </Button>
           </form>
         </CardContent>
 
         <CardFooter className="text-center flex flex-col">
-          <p className="text-slate-600">
-            {t("login.dontHaveAccount")}{" "}
+          <p className="text-[#4A4A4A]">
+            Noch kein Konto?{" "}
             <Link
-              href={`/register`}
-              className="text-black hover:underline font-medium transition-colors"
+              href="/register"
+              className="text-[#B36B2F] hover:text-[#8a5224] hover:underline font-semibold transition-colors"
             >
-              {t("login.signUp")}
+              Jetzt registrieren
             </Link>
           </p>
         </CardFooter>

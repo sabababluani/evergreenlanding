@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 
 const MeritSection = () => {
   return (
@@ -20,7 +21,6 @@ const MeritSection = () => {
           </div>
         </div>
 
-        {/* Right Content Side */}
         <div className="flex-1 text-center lg:text-left">
           <h2 className="text-4xl md:text-5xl lg:text-6xl font-serif text-[#0D2B1D] leading-tight mb-8">
             Weil du es <span className="font-bold">verdienst</span>
@@ -34,9 +34,9 @@ const MeritSection = () => {
           </p>
 
           <div>
-            <button className="bg-[#FF9124] hover:bg-[#e68220] transition-all text-[#0D2B1D] font-bold py-4 px-10 rounded-full text-sm shadow-md">
+            <Link href={"/register"} className="bg-[#FF9124] hover:bg-[#e68220] transition-all text-[#0D2B1D] font-bold py-4 px-10 rounded-full text-sm shadow-md">
               Geldgeschenk sichern
-            </button>
+            </Link>
           </div>
         </div>
       </div>

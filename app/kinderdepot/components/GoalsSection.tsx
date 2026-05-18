@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 
 export const GoalsSection = () => {
   const goals = [
@@ -79,9 +80,9 @@ export const GoalsSection = () => {
         ))}
       </div>
 
-      <button className="bg-[#FF9124] hover:bg-[#e68220] text-[#0D2B1D] font-bold py-4 px-12 rounded-full shadow-lg transition-transform hover:scale-105">
+      <Link href={"/register"} className="bg-[#FF9124] hover:bg-[#e68220] text-[#0D2B1D] font-bold py-4 px-12 rounded-full shadow-lg transition-transform hover:scale-105">
         Kinderdepot eröffnen
-      </button>
+      </Link>
 
       <p className="mt-12 text-[10px] text-gray-400 text-center max-w-4xl leading-relaxed">
         Grundlage der Berechnung ist die Wertentwicklung der Strategie

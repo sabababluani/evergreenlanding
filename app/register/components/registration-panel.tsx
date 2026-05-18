@@ -4,13 +4,13 @@ import { parseISO, format } from "date-fns";
 import { useState, useEffect } from "react";
 import { ArrowLeft, Check, ChevronDown, CalendarDays } from "lucide-react";
 
+import { cn } from "@/app/lib/utils";
 import type { Country } from "@/app/api/types/countries";
 import type { Language } from "@/app/api/types/languages";
 import { postRegistration } from "@/app/api/auth/postRegistration";
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { useTranslations } from "next-intl";
 import {
   Card,
   CardContent,
@@ -36,7 +36,6 @@ import {
 import { Calendar } from "../../components/ui/calendar";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { cn } from "@/app/lib/utils";
 
 interface RegistrationFormProps {
   countries: Country[];
@@ -44,13 +43,38 @@ interface RegistrationFormProps {
   detectedCountryCode: string | null;
 }
 
+const registerSchema = z.object({
+  firstName: z.string().min(1, "Vorname ist erforderlich"),
+  lastName: z.string().min(1, "Nachname ist erforderlich"),
+  email: z.string().email("Ungültige E-Mail-Adresse"),
+  username: z.string().min(3, "Benutzername muss mindestens 3 Zeichen lang sein"),
+  password: z.string().min(8, "Passwort muss mindestens 8 Zeichen lang sein"),
+  phoneNumber: z.string().min(1, "Telefonnummer ist erforderlich"),
+  telephone: z.string().optional(),
+  country: z.string().min(1, "Land ist erforderlich"),
+  language: z.string().min(1, "Sprache ist erforderlich"),
+  address: z.string().min(1, "Adresse ist erforderlich"),
+  dateOfBirth: z.string().min(1, "Geburtsdatum ist erforderlich"),
+});
+
+type FormData = z.infer<typeof registerSchema>;
+
+const labelClass = "text-[#0B2B1D]";
+const inputClass =
+  "border-[#0B2B1D]/20 text-[#0B2B1D] placeholder:text-[#4A4A4A]/60 focus:border-[#0B2B1D] focus:ring-[#0B2B1D]/20 rounded-xl";
+const outlineBtnClass =
+  "w-full justify-between bg-white border-[#0B2B1D]/20 text-[#0B2B1D] hover:bg-[#FCF8ED] focus:border-[#0B2B1D] rounded-xl";
+const popoverContentClass =
+  "w-(--radix-popover-trigger-width) p-0 bg-white border-[#0B2B1D]/10 text-[#0B2B1D]";
+const commandItemClass =
+  "cursor-pointer hover:bg-[#FCF8ED] text-[#0B2B1D] data-[selected=true]:bg-[#FCF8ED]";
+
 export default function RegistrationForm({
   countries,
   languages,
   detectedCountryCode,
 }: RegistrationFormProps) {
   const router = useRouter();
-  const t = useTranslations();
 
   const [error, setError] = useState<string | null>(null);
   const [countrySearch, setCountrySearch] = useState("");
@@ -58,22 +82,6 @@ export default function RegistrationForm({
   const [showCountryDropdown, setShowCountryDropdown] = useState(false);
   const [showLanguageDropdown, setShowLanguageDropdown] = useState(false);
   const [showDatePicker, setShowDatePicker] = useState(false);
-
-  const registerSchema = z.object({
-    firstName: z.string().min(1, t("register.error.firstName-required")),
-    lastName: z.string().min(1, t("register.error.lastName-required")),
-    email: z.string().email(t("register.error.email-invalid")),
-    username: z.string().min(3, t("register.error.username-min")),
-    password: z.string().min(8, t("register.error.password-min")),
-    phoneNumber: z.string().min(1, t("register.error.phoneNumber-required")),
-    telephone: z.string().optional(),
-    country: z.string().min(1, t("register.error.country-required")),
-    language: z.string().min(1, t("register.error.language-required")),
-    address: z.string().min(1, t("register.error.address-required")),
-    dateOfBirth: z.string().min(1, t("register.error.dateOfBirth-required")),
-  });
-
-  type FormData = z.infer<typeof registerSchema>;
 
   const {
     register,
@@ -106,9 +114,7 @@ export default function RegistrationForm({
   useEffect(() => {
     if (detectedCountryCode) {
       const matched = countries.find((c) => c.code === detectedCountryCode);
-      if (matched) {
-        setValue("country", matched.code);
-      }
+      if (matched) setValue("country", matched.code);
     }
   }, [detectedCountryCode, countries, setValue]);
 
@@ -125,68 +131,65 @@ export default function RegistrationForm({
       const today = new Date();
       let age = today.getFullYear() - birthDate.getFullYear();
       const m = today.getMonth() - birthDate.getMonth();
-      if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
-        age--;
-      }
-
+      if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) age--;
       if (age < 18) {
-        setError(t("register.error.too-young"));
+        setError("Sie müssen mindestens 18 Jahre alt sein, um sich zu registrieren.");
         return;
       }
     }
 
     const response = await postRegistration(data);
     if (response?.errors) {
-      setError(t("register.error.unknown-error"));
+      setError("Bei der Registrierung ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut.");
       return;
     }
     router.push("/login");
   };
 
   const filteredCountries = countries.filter(
-    (country) =>
-      country.name.toLowerCase().includes(countrySearch.toLowerCase()) ||
-      country.code.toLowerCase().includes(countrySearch.toLowerCase()),
+    (c) =>
+      c.name.toLowerCase().includes(countrySearch.toLowerCase()) ||
+      c.code.toLowerCase().includes(countrySearch.toLowerCase()),
   );
 
   const filteredLanguages = languages.filter(
-    (language) =>
-      language.name.toLowerCase().includes(languageSearch.toLowerCase()) ||
-      language.code.toLowerCase().includes(languageSearch.toLowerCase()),
+    (l) =>
+      l.name.toLowerCase().includes(languageSearch.toLowerCase()) ||
+      l.code.toLowerCase().includes(languageSearch.toLowerCase()),
   );
 
-  const handleCountrySelect = (countryCode: string) => {
-    setValue("country", countryCode);
+  const handleCountrySelect = (code: string) => {
+    setValue("country", code);
     setCountrySearch("");
     setShowCountryDropdown(false);
   };
 
-  const handleLanguageSelect = (languageCode: string) => {
-    setValue("language", languageCode);
+  const handleLanguageSelect = (code: string) => {
+    setValue("language", code);
     setLanguageSearch("");
     setShowLanguageDropdown(false);
   };
 
   const selectedCountry = countries.find((c) => c.code === watchedCountry);
   const selectedLanguage = languages.find((l) => l.code === watchedLanguage);
-  const dateOfBirthDate = watchedDateOfBirth
-    ? parseISO(watchedDateOfBirth)
-    : undefined;
+  const dateOfBirthDate = watchedDateOfBirth ? parseISO(watchedDateOfBirth) : undefined;
 
   return (
-    <div className="flex-1 flex items-center justify-center p-4 sm:p-8 overflow-y-auto relative z-10">
-      <Card className="w-full max-w-md bg-white border border-slate-200 shadow-xl text-slate-900 rounded-2xl">
+    <div className="flex-1 p-8 lg:p-12 flex flex-col justify-center bg-white overflow-y-auto relative z-10">
+      <Card className="w-full max-w-xl mx-auto bg-white border border-[#0B2B1D]/10 shadow-sm text-[#0B2B1D] rounded-[30px]">
         <CardHeader className="pb-4">
           <Link
-            href={`/`}
-            className="inline-flex items-center text-slate-500 hover:text-black mb-4 transition-colors"
+            href="/"
+            className="inline-flex items-center text-[#4A4A4A] hover:text-[#0B2B1D] mb-4 transition-colors"
           >
-            <ArrowLeft className="w-4 h-4 mr-2" /> {t("register.back")}
+            <ArrowLeft className="w-4 h-4 mr-2" /> Zurück zur Startseite
           </Link>
-          <CardTitle className="text-3xl font-bold text-black text-center">
-            {t("register.createAccount")}
+          <CardTitle className="text-3xl font-serif text-[#0B2B1D] text-center">
+            Konto erstellen
           </CardTitle>
-          <p className="text-slate-500 text-center">{t("register.subtitle")}</p>
+          <p className="text-[#4A4A4A] text-center">
+            Starte noch heute mit Evergreen
+          </p>
         </CardHeader>
         <CardContent>
           {error && (
@@ -197,172 +200,58 @@ export default function RegistrationForm({
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div className="space-y-2">
-                <Label htmlFor="firstName" className="text-slate-700">
-                  {t("register.firstName")}
-                </Label>
-                <Input
-                  id="firstName"
-                  type="text"
-                  {...register("firstName")}
-                  placeholder={t("register.firstName")}
-                  disabled={isSubmitting}
-                  className="border-slate-300 text-black placeholder:text-slate-400 focus:border-black focus:ring-black"
-                />
-                {errors.firstName && (
-                  <p className="text-red-500 text-sm">
-                    {errors.firstName.message}
-                  </p>
-                )}
+                <Label htmlFor="firstName" className={labelClass}>Vorname</Label>
+                <Input id="firstName" type="text" {...register("firstName")} placeholder="Geben Sie Ihren Vornamen ein" disabled={isSubmitting} className={inputClass} />
+                {errors.firstName && <p className="text-red-500 text-sm">{errors.firstName.message}</p>}
               </div>
               <div className="space-y-2">
-                <Label htmlFor="lastName" className="text-slate-700">
-                  {t("register.lastName")}
-                </Label>
-                <Input
-                  id="lastName"
-                  type="text"
-                  {...register("lastName")}
-                  placeholder={t("register.lastName")}
-                  disabled={isSubmitting}
-                  className="border-slate-300 text-black placeholder:text-slate-400 focus:border-black focus:ring-black"
-                />
-                {errors.lastName && (
-                  <p className="text-red-500 text-sm">
-                    {errors.lastName.message}
-                  </p>
-                )}
+                <Label htmlFor="lastName" className={labelClass}>Nachname</Label>
+                <Input id="lastName" type="text" {...register("lastName")} placeholder="Geben Sie Ihren Nachnamen ein" disabled={isSubmitting} className={inputClass} />
+                {errors.lastName && <p className="text-red-500 text-sm">{errors.lastName.message}</p>}
               </div>
             </div>
             <div className="space-y-2">
-              <Label htmlFor="email" className="text-slate-700">
-                {t("register.email")}
-              </Label>
-              <Input
-                id="email"
-                type="email"
-                {...register("email")}
-                placeholder={t("register.email")}
-                disabled={isSubmitting}
-                className="border-slate-300 text-black placeholder:text-slate-400 focus:border-black focus:ring-black"
-              />
-              {errors.email && (
-                <p className="text-red-500 text-sm">{errors.email.message}</p>
-              )}
+              <Label htmlFor="email" className={labelClass}>E-Mail</Label>
+              <Input id="email" type="email" {...register("email")} placeholder="Geben Sie Ihre E-Mail ein" disabled={isSubmitting} className={inputClass} />
+              {errors.email && <p className="text-red-500 text-sm">{errors.email.message}</p>}
             </div>
             <div className="space-y-2">
-              <Label htmlFor="username" className="text-slate-700">
-                {t("register.username")}
-              </Label>
-              <Input
-                id="username"
-                type="text"
-                {...register("username")}
-                placeholder={t("register.username")}
-                disabled={isSubmitting}
-                className="border-slate-300 text-black placeholder:text-slate-400 focus:border-black focus:ring-black"
-              />
-              {errors.username && (
-                <p className="text-red-500 text-sm">
-                  {errors.username.message}
-                </p>
-              )}
+              <Label htmlFor="username" className={labelClass}>Benutzername</Label>
+              <Input id="username" type="text" {...register("username")} placeholder="Wählen Sie einen Benutzernamen" disabled={isSubmitting} className={inputClass} />
+              {errors.username && <p className="text-red-500 text-sm">{errors.username.message}</p>}
             </div>
             <div className="space-y-2">
-              <Label htmlFor="password" className="text-slate-700">
-                {t("register.password")}
-              </Label>
-              <Input
-                id="password"
-                type="password"
-                {...register("password")}
-                placeholder={t("register.password")}
-                disabled={isSubmitting}
-                className="border-slate-300 text-black placeholder:text-slate-400 focus:border-black focus:ring-black"
-              />
-              {errors.password && (
-                <p className="text-red-500 text-sm">
-                  {errors.password.message}
-                </p>
-              )}
+              <Label htmlFor="password" className={labelClass}>Passwort</Label>
+              <Input id="password" type="password" {...register("password")} placeholder="Erstellen Sie ein Passwort" disabled={isSubmitting} className={inputClass} />
+              {errors.password && <p className="text-red-500 text-sm">{errors.password.message}</p>}
             </div>
             <div className="space-y-2">
-              <Label htmlFor="phoneNumber" className="text-slate-700">
-                {t("register.phoneNumber")}
-              </Label>
-              <Input
-                id="phoneNumber"
-                type="tel"
-                {...register("phoneNumber")}
-                placeholder={t("register.phoneNumber")}
-                disabled={isSubmitting}
-                className="border-slate-300 text-black placeholder:text-slate-400 focus:border-black focus:ring-black"
-              />
-              {errors.phoneNumber && (
-                <p className="text-red-500 text-sm">
-                  {errors.phoneNumber.message}
-                </p>
-              )}
+              <Label htmlFor="phoneNumber" className={labelClass}>Telefonnummer</Label>
+              <Input id="phoneNumber" type="tel" {...register("phoneNumber")} placeholder="Geben Sie Ihre Telefonnummer ein" disabled={isSubmitting} className={inputClass} />
+              {errors.phoneNumber && <p className="text-red-500 text-sm">{errors.phoneNumber.message}</p>}
             </div>
             <div className="space-y-2">
-              <Label htmlFor="country" className="text-slate-700">
-                {t("register.country")}
-              </Label>
+              <Label htmlFor="country" className={labelClass}>Land</Label>
               <Controller
                 name="country"
                 control={control}
                 render={({ field }) => (
-                  <Popover
-                    open={showCountryDropdown}
-                    onOpenChange={setShowCountryDropdown}
-                  >
+                  <Popover open={showCountryDropdown} onOpenChange={setShowCountryDropdown}>
                     <PopoverTrigger asChild>
-                      <Button
-                        variant="outline"
-                        role="combobox"
-                        aria-expanded={showCountryDropdown}
-                        className="w-full justify-between bg-white border-slate-300 text-slate-900 hover:bg-slate-50 focus:border-black"
-                        disabled={isSubmitting}
-                      >
-                        {selectedCountry ? (
-                          selectedCountry.name
-                        ) : (
-                          <span className="text-slate-400">
-                            {t("register.selectCountry")}
-                          </span>
-                        )}
+                      <Button variant="outline" role="combobox" aria-expanded={showCountryDropdown} className={outlineBtnClass} disabled={isSubmitting}>
+                        {selectedCountry ? selectedCountry.name : <span className="text-[#4A4A4A]/60">Wählen Sie Ihr Land</span>}
                         <ChevronDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                       </Button>
                     </PopoverTrigger>
-                    <PopoverContent className="w-(--radix-popover-trigger-width) p-0 bg-white border-slate-200 text-slate-900">
-                      <Command className="bg-white text-slate-900">
-                        <CommandInput
-                          placeholder={t("register.searchCountries")}
-                          value={countrySearch}
-                          onValueChange={setCountrySearch}
-                          className="border-slate-200 text-black placeholder:text-slate-400"
-                        />
+                    <PopoverContent className={popoverContentClass}>
+                      <Command className="bg-white text-[#0B2B1D]">
+                        <CommandInput placeholder="Länder suchen..." value={countrySearch} onValueChange={setCountrySearch} className="border-[#0B2B1D]/10 text-[#0B2B1D] placeholder:text-[#4A4A4A]/60" />
                         <CommandList className="max-h-60 overflow-y-auto">
-                          <CommandEmpty className="text-slate-500">
-                            {t("register.selectCountry")}
-                          </CommandEmpty>
+                          <CommandEmpty className="text-[#4A4A4A]">Kein Land gefunden.</CommandEmpty>
                           <CommandGroup>
                             {filteredCountries.map((country) => (
-                              <CommandItem
-                                key={country.code}
-                                value={country.name}
-                                onSelect={() =>
-                                  handleCountrySelect(country.code)
-                                }
-                                className="cursor-pointer hover:bg-slate-100 text-slate-900 data-[selected=true]:bg-slate-100"
-                              >
-                                <Check
-                                  className={cn(
-                                    "mr-2 h-4 w-4",
-                                    field.value === country.code
-                                      ? "opacity-100"
-                                      : "opacity-0",
-                                  )}
-                                />
+                              <CommandItem key={country.code} value={country.name} onSelect={() => handleCountrySelect(country.code)} className={commandItemClass}>
+                                <Check className={cn("mr-2 h-4 w-4", field.value === country.code ? "opacity-100" : "opacity-0")} />
                                 {country.name}
                               </CommandItem>
                             ))}
@@ -373,91 +262,42 @@ export default function RegistrationForm({
                   </Popover>
                 )}
               />
-              {errors.country && (
-                <p className="text-red-500 text-sm">{errors.country.message}</p>
-              )}
+              {errors.country && <p className="text-red-500 text-sm">{errors.country.message}</p>}
             </div>
             <div className="space-y-2">
-              <Label htmlFor="language" className="text-slate-700">
-                {t("register.language")}
-              </Label>
+              <Label htmlFor="language" className={labelClass}>Sprache</Label>
               <Controller
                 name="language"
                 control={control}
                 render={({ field }) => (
-                  <Popover
-                    open={showLanguageDropdown}
-                    onOpenChange={setShowLanguageDropdown}
-                  >
+                  <Popover open={showLanguageDropdown} onOpenChange={setShowLanguageDropdown}>
                     <PopoverTrigger asChild>
-                      <Button
-                        variant="outline"
-                        role="combobox"
-                        aria-expanded={showLanguageDropdown}
-                        className="w-full justify-between bg-white border-slate-300 text-slate-900 hover:bg-slate-50 focus:border-black"
-                        disabled={isSubmitting}
-                      >
-                        <span
-                          className={
-                            selectedLanguage
-                              ? "text-slate-900"
-                              : "text-slate-400"
-                          }
-                        >
-                          {selectedLanguage
-                            ? selectedLanguage.name
-                            : t("register.selectLanguage")}
+                      <Button variant="outline" role="combobox" aria-expanded={showLanguageDropdown} className={outlineBtnClass} disabled={isSubmitting}>
+                        <span className={selectedLanguage ? "text-[#0B2B1D]" : "text-[#4A4A4A]/60"}>
+                          {selectedLanguage ? selectedLanguage.name : "Wählen Sie Ihre Sprache"}
                         </span>
                         <ChevronDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                       </Button>
                     </PopoverTrigger>
-                    <PopoverContent className="w-(--radix-popover-trigger-width) p-0 bg-white border-slate-200 text-slate-900">
-                      <Command className="bg-white text-slate-900">
-                        <CommandInput
-                          placeholder="Search languages..."
-                          value={languageSearch}
-                          onValueChange={setLanguageSearch}
-                          className="border-slate-200 text-black placeholder:text-slate-400"
-                        />
+                    <PopoverContent className={popoverContentClass}>
+                      <Command className="bg-white text-[#0B2B1D]">
+                        <CommandInput placeholder="Sprachen suchen..." value={languageSearch} onValueChange={setLanguageSearch} className="border-[#0B2B1D]/10 text-[#0B2B1D] placeholder:text-[#4A4A4A]/60" />
                         <CommandList className="max-h-60 overflow-y-auto">
-                          <CommandEmpty className="text-slate-500">
-                            No language found.
-                          </CommandEmpty>
+                          <CommandEmpty className="text-[#4A4A4A]">Keine Sprache gefunden.</CommandEmpty>
                           <CommandGroup>
                             {filteredLanguages
                               .sort((a, b) => {
-                                const priorityOrder = ["en", "de"];
-                                const indexA = priorityOrder.indexOf(a.code);
-                                const indexB = priorityOrder.indexOf(b.code);
-                                if (indexA !== -1 || indexB !== -1) {
-                                  return (
-                                    (indexA === -1
-                                      ? Number.POSITIVE_INFINITY
-                                      : indexA) -
-                                    (indexB === -1
-                                      ? Number.POSITIVE_INFINITY
-                                      : indexB)
-                                  );
+                                const order = ["en", "de"];
+                                const iA = order.indexOf(a.code);
+                                const iB = order.indexOf(b.code);
+                                if (iA !== -1 || iB !== -1) {
+                                  return (iA === -1 ? Infinity : iA) - (iB === -1 ? Infinity : iB);
                                 }
                                 return a.name.localeCompare(b.name);
                               })
                               .map((language) => (
-                                <CommandItem
-                                  key={language.code}
-                                  value={language.name}
-                                  onSelect={() =>
-                                    handleLanguageSelect(language.code)
-                                  }
-                                  className="cursor-pointer text-slate-900 hover:bg-slate-100 data-[selected=true]:bg-slate-100"
-                                >
-                                  <Check
-                                    className={cn(
-                                      "mr-2 h-4 w-4",
-                                      field.value === language.code
-                                        ? "opacity-100"
-                                        : "opacity-0",
-                                    )}
-                                  />
+                                <CommandItem key={language.code} value={language.name} onSelect={() => handleLanguageSelect(language.code)} className={commandItemClass}>
+                                  <Check className={cn("mr-2 h-4 w-4", field.value === language.code ? "opacity-100" : "opacity-0")} />
                                   {language.name}
                                 </CommandItem>
                               ))}
@@ -468,102 +308,50 @@ export default function RegistrationForm({
                   </Popover>
                 )}
               />
-              {errors.language && (
-                <p className="text-red-500 text-sm">
-                  {errors.language.message}
-                </p>
-              )}
+              {errors.language && <p className="text-red-500 text-sm">{errors.language.message}</p>}
             </div>
             <div className="space-y-2">
-              <Label htmlFor="address" className="text-slate-700">
-                {t("register.address")}
-              </Label>
-              <Input
-                id="address"
-                type="text"
-                {...register("address")}
-                placeholder={t("register.address")}
-                disabled={isSubmitting}
-                className="border-slate-300 text-black placeholder:text-slate-400 focus:border-black focus:ring-black"
-              />
-              {errors.address && (
-                <p className="text-red-500 text-sm">{errors.address.message}</p>
-              )}
+              <Label htmlFor="address" className={labelClass}>Adresse</Label>
+              <Input id="address" type="text" {...register("address")} placeholder="Adresse eingeben" disabled={isSubmitting} className={inputClass} />
+              {errors.address && <p className="text-red-500 text-sm">{errors.address.message}</p>}
             </div>
             <div className="space-y-2">
-              <Label htmlFor="dateOfBirth" className="text-slate-700">
-                {t("register.dateOfBirth")}
-              </Label>
+              <Label htmlFor="dateOfBirth" className={labelClass}>Geburtsdatum</Label>
               <Controller
                 name="dateOfBirth"
                 control={control}
                 render={({ field }) => (
-                  <Popover
-                    open={showDatePicker}
-                    onOpenChange={setShowDatePicker}
-                  >
+                  <Popover open={showDatePicker} onOpenChange={setShowDatePicker}>
                     <PopoverTrigger asChild>
-                      <Button
-                        variant={"outline"}
-                        className={cn(
-                          "w-full justify-start text-left font-normal bg-white border-slate-300 text-slate-900 hover:bg-slate-50 focus:border-black",
-                          !field.value && "text-slate-400",
-                        )}
-                        disabled={isSubmitting}
-                      >
+                      <Button variant="outline" className={cn(outlineBtnClass, "justify-start", !field.value && "text-[#4A4A4A]/60")} disabled={isSubmitting}>
                         <CalendarDays className="mr-2 size-4" />
-                        {field.value ? (
-                          format(dateOfBirthDate!, "PPP")
-                        ) : (
-                          <span>{t("register.pickDate")}</span>
-                        )}
+                        {field.value ? format(dateOfBirthDate!, "PPP") : <span>Datum auswählen</span>}
                       </Button>
                     </PopoverTrigger>
-                    <PopoverContent
-                      className="w-auto overflow-hidden p-0 bg-white/80 backdrop-blur-md border-slate-200 shadow-lg"
-                      align="start"
-                    >
-                      <Calendar
-                        mode="single"
-                        selected={dateOfBirthDate}
-                        onSelect={handleDateSelect}
-                        captionLayout="dropdown"
-                        startMonth={new Date(1900, 0)}
-                        endMonth={new Date(new Date().getFullYear(), 0)}
-                      />
+                    <PopoverContent className="w-auto overflow-hidden p-0 bg-white border-[#0B2B1D]/10 shadow-lg" align="start">
+                      <Calendar mode="single" selected={dateOfBirthDate} onSelect={handleDateSelect} captionLayout="dropdown" startMonth={new Date(1900, 0)} endMonth={new Date(new Date().getFullYear(), 0)} />
                     </PopoverContent>
                   </Popover>
                 )}
               />
-              {errors.dateOfBirth && (
-                <p className="text-red-500 text-sm">
-                  {errors.dateOfBirth.message}
-                </p>
-              )}
+              {errors.dateOfBirth && <p className="text-red-500 text-sm">{errors.dateOfBirth.message}</p>}
             </div>
-            <Button
-              type="submit"
-              disabled={isSubmitting}
-              className="w-full bg-black hover:bg-slate-900 text-white font-semibold py-3 rounded-lg transition-all duration-200 shadow-md"
-            >
+            <Button type="submit" disabled={isSubmitting} className="w-full bg-[#FF931E] hover:bg-[#e6841a] text-[#0B2B1D] font-bold py-3 rounded-full transition-all shadow-sm">
               {isSubmitting ? (
                 <div className="flex items-center justify-center">
-                  <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
-                  {t("register.loading")}
+                  <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-[#0B2B1D] mr-2"></div>
+                  Konto wird erstellt...
                 </div>
-              ) : (
-                t("register.submit")
-              )}
+              ) : "Konto erstellen"}
             </Button>
           </form>
-
-          <p className="text-center text-slate-600 mt-4">
-            {t("register.alreadyHaveAccount")}{" "}
+          <p className="text-center text-[#4A4A4A] mt-4">
+            Haben Sie bereits ein Konto?{" "}
             <Link
-              href={`/login`}
-              className="text-black hover:underline font-medium transition-colors"
+              href="/login"
+              className="text-[#B36B2F] hover:text-[#8a5224] hover:underline font-semibold transition-colors"
             >
-              {t("register.signIn")}
+              Anmelden
             </Link>
           </p>
         </CardContent>

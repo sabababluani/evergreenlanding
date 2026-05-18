@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 
 const BenefitsSection = () => {
   return (
@@ -22,9 +23,9 @@ const BenefitsSection = () => {
           </p>
 
           <div className="pt-6">
-            <button className="border border-[#0a1a0f] text-[#0a1a0f] font-bold py-3 px-10 rounded-full hover:bg-[#0a1a0f] hover:text-white transition-all duration-300">
+            <Link href={"/vl-sparen"} className="border border-[#0a1a0f] text-[#0a1a0f] font-bold py-3 px-10 rounded-full hover:bg-[#0a1a0f] hover:text-white transition-all duration-300">
               Mehr erfahren
-            </button>
+            </Link>
           </div>
         </div>
 

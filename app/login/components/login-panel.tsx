@@ -1,46 +1,44 @@
 "use client";
 
 import { Check } from "lucide-react";
-import { useTranslations } from "next-intl";
 
 const LoginPanel = () => {
-  const t = useTranslations();
-
   const benefits = [
-    t("login.benefits.pairAccess"),
-    t("login.benefits.advancedTools"),
-    t("login.benefits.secureWallet"),
-    t("login.benefits.customerSupport"),
+    "Jederzeit flexibel bleiben",
+    "Für jedes Ziel ein eigener Sparplan",
+    "Ab 1 Euro Anlagesumme",
+    "Gebührenfrei investieren",
+  ];
+
+  const stats = [
+    { label: "Verwaltetes Vermögen", value: "130 Mio €+" },
+    { label: "Zufriedene Kunden", value: "22.000+" },
+    { label: "Zertifizierung", value: "B Corp" },
   ];
 
   return (
-    <div className="flex-1 p-8 lg:p-12 bg-white flex flex-col justify-center border-l border-slate-200 lg:border-t-0 border-t text-slate-900">
-      <h2 className="text-3xl font-bold text-black mb-8">
-        {t("login.startTrading")}
+    <div className="flex-1 p-8 lg:p-12 bg-[#FCF8ED] flex flex-col justify-center border-l border-[#0B2B1D]/10 lg:border-t-0 border-t text-[#0B2B1D]">
+      <h2 className="text-3xl lg:text-4xl font-serif text-[#0B2B1D] mb-8 leading-tight">
+        Geld nicht nur weglegen,{" "}
+        <span className="font-bold">sondern wachsen lassen</span>
       </h2>
 
-      <div className="space-y-6">
+      <div className="space-y-5">
         {benefits.map((benefit, index) => (
-          <div key={index} className="flex items-start space-x-3">
-            <div className="flex-shrink-0 w-6 h-6 bg-black rounded-full flex items-center justify-center mt-0.5 shadow-md">
-              <Check className="w-4 h-4 text-white" />
+          <div key={index} className="flex items-start gap-3">
+            <div className="flex-shrink-0 w-6 h-6 rounded-full border-2 border-[#B36B2F] flex items-center justify-center mt-0.5">
+              <Check className="w-3.5 h-3.5 text-[#B36B2F]" strokeWidth={3} />
             </div>
-
-            <p className="text-slate-700 leading-relaxed">{benefit}</p>
+            <p className="text-[#1A3C2F] leading-relaxed font-medium">{benefit}</p>
           </div>
         ))}
       </div>
 
-      {/* Stats Section */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 pt-8 mt-8 border-t border-slate-200">
-        {[
-          { label: t("login.totalVolume"), value: "$4.2B+" },
-          { label: t("login.activeTraders"), value: "650K+" },
-          { label: t("login.countries"), value: "190+" },
-        ].map((item, idx) => (
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 pt-8 mt-8 border-t border-[#0B2B1D]/10">
+        {stats.map((item, idx) => (
           <div key={idx} className="text-center space-y-1">
-            <p className="text-slate-500 text-sm">{item.label}</p>
-            <p className="text-2xl font-bold text-black">{item.value}</p>
+            <p className="text-[#4A4A4A] text-sm">{item.label}</p>
+            <p className="text-2xl font-bold font-serif text-[#0B2B1D]">{item.value}</p>
           </div>
         ))}
       </div>

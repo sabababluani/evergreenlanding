@@ -8,7 +8,7 @@ export default function QualityPriceSection() {
   const [open, setOpen] = useState(false);
 
   return (
-    <section className="relative bg-[#f3f3f3] px-4 py-16">
+    <section className="relative px-4 py-16">
       <div className="mx-auto grid max-w-7xl grid-cols-1 items-center gap-14 lg:grid-cols-2">
         {/* LEFT */}
         <div>

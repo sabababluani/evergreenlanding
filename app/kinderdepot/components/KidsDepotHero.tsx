@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 
 const KidsDepotHero = () => {
   const features = [
@@ -30,9 +31,9 @@ const KidsDepotHero = () => {
           </p>
 
           <div className="pt-4">
-            <button className="bg-[#FF9124] hover:bg-[#e68220] transition-all text-white font-bold py-4 px-10 rounded-full text-sm shadow-lg shadow-orange-100">
+            <Link href={"/register"} className="bg-[#FF9124] hover:bg-[#e68220] transition-all text-white font-bold py-4 px-10 rounded-full text-sm shadow-lg shadow-orange-100">
               Kinderdepot eröffnen
-            </button>
+            </Link>
           </div>
         </div>
 

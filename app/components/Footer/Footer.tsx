@@ -17,7 +17,7 @@ const aboutLinks = [
 const Footer = () => {
   return (
     <footer className="w-full px-4 pt-8 bg-white">
-      <div className="max-w-7xl mx-auto bg-[#0B2B1D] text-white rounded-[40px] p-8 md:p-16">
+      <div className="max-w-7xl mx-auto bg-[#0B2B1D] text-white rounded-[40px] p-3 md:p-16">
         {/* Logo Section */}
         <div className="mb-12">
           <h2 className="text-2xl font-bold tracking-tight text-center md:text-left">
@@ -27,8 +27,7 @@ const Footer = () => {
 
         {/* Links Grid */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-10 border-b border-white/10 pb-12">
-          
-          {/* Evergreen */}
+
           <div className="space-y-4">
             <h4 className="font-bold text-lg">Evergreen</h4>
             <ul className="space-y-3 text-sm text-gray-300">
@@ -41,24 +40,9 @@ const Footer = () => {
                 </li>
               ))}
               <li><Link href="/kosten" className="hover:text-white transition-colors">Kosten</Link></li>
-              <li><Link href="/nachhaltigkeitsbericht" className="hover:text-white transition-colors">Nachhaltigkeitsbericht ↗</Link></li>
-              <li><Link href="/newsletter" className="hover:text-white transition-colors">Newsletter abonnieren</Link></li>
-              <li><Link href="/presse" className="hover:text-white transition-colors">Presse</Link></li>
             </ul>
           </div>
 
-          {/* Wissen & Märkte */}
-          <div className="space-y-4">
-            <h4 className="font-bold text-lg">Wissen & Märkte</h4>
-            <ul className="space-y-3 text-sm text-gray-300">
-              <li><Link href="/blog" className="hover:text-white transition-colors">Blog ↗</Link></li>
-              <li><Link href="/marktkommentar" className="hover:text-white transition-colors">Marktkommentar ↗</Link></li>
-              <li><Link href="/sprechstunde" className="hover:text-white transition-colors">Fondsmanagement-Sprechstunde ↗</Link></li>
-              <li><Link href="/studien" className="hover:text-white transition-colors">Robo-Advisor-Studien ↗</Link></li>
-            </ul>
-          </div>
-
-          {/* Investieren */}
           <div className="space-y-4">
             <h4 className="font-bold text-lg">Investieren</h4>
             <ul className="space-y-3 text-sm text-gray-300">
@@ -72,7 +56,6 @@ const Footer = () => {
             </ul>
           </div>
 
-          {/* Downloads */}
           <div className="space-y-4">
             <h4 className="font-bold text-lg">Downloads</h4>
             <ul className="space-y-3 text-sm text-gray-300">
@@ -83,10 +66,8 @@ const Footer = () => {
           </div>
         </div>
 
-        {/* Contact Info Section */}
         <div className="pt-8 flex flex-col md:flex-row justify-between items-start md:items-center gap-6 text-sm text-gray-300">
-          
-          {/* Address */}
+
           <div className="flex items-center gap-3">
             <div className="p-2 bg-white/5 rounded-full">
               <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -97,7 +78,6 @@ const Footer = () => {
             <span>Musterstraße 123, 10115 Berlin</span>
           </div>
 
-          {/* Phone */}
           <div className="flex items-center gap-3">
             <div className="p-2 bg-white/5 rounded-full">
               <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -109,7 +89,6 @@ const Footer = () => {
             </a>
           </div>
 
-          {/* Email */}
           <div className="flex items-center gap-3">
             <div className="p-2 bg-white/5 rounded-full">
               <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -121,6 +100,10 @@ const Footer = () => {
             </a>
           </div>
 
+        </div>
+
+        <div className="mt-8 pt-6 border-t border-white/10 text-center text-xs text-gray-400">
+          © {new Date().getFullYear()} evergreen. Alle Rechte vorbehalten.
         </div>
       </div>
     </footer>

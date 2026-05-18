@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 
 const PromoSection = () => {
   return (
@@ -22,9 +23,9 @@ const PromoSection = () => {
           </p>
 
           <div className="pt-4">
-            <button className="bg-[#FF9124] hover:bg-[#e68220] transition-all transform hover:scale-105 text-white font-bold py-4 px-10 rounded-full text-sm shadow-lg shadow-orange-200">
+            <Link href={"/register"} className="bg-[#FF9124] hover:bg-[#e68220] transition-all transform hover:scale-105 text-white font-bold py-4 px-10 rounded-full text-sm shadow-lg shadow-orange-200">
               Geldgeschenk sichern
-            </button>
+            </Link>
           </div>
         </div>
 

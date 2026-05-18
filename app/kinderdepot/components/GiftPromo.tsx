@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 
 export const GiftPromo = () => {
   return (
@@ -17,9 +18,9 @@ export const GiftPromo = () => {
             Jahr für Jahr bis zu 480 Euro geschenkt vom Arbeitgeber – du musst
             nur starten.
           </p>
-          <button className="bg-[#FF9124] hover:bg-[#e68220] transition-colors text-[#0D2B1D] font-bold py-4 px-10 rounded-full text-sm">
+          <Link href={"/register"} className="bg-[#FF9124] hover:bg-[#e68220] transition-colors text-[#0D2B1D] font-bold py-4 px-10 rounded-full text-sm">
             Geldgeschenk sichern
-          </button>
+          </Link>
         </div>
 
         {/* Right Side - Single Composite Image */}

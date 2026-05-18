@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import React from "react";
 
 const KidsDepotSection = () => {
@@ -40,9 +41,9 @@ const KidsDepotSection = () => {
             </p>
 
             <div className="pt-4">
-              <button className="bg-transparent border border-[#0a1a0f] text-[#0a1a0f] font-bold py-3 px-10 rounded-full hover:bg-[#0a1a0f] hover:text-white transition-all duration-300">
+              <Link href={"/kinderdepot"} className="bg-transparent border border-[#0a1a0f] text-[#0a1a0f] font-bold py-3 px-10 rounded-full hover:bg-[#0a1a0f] hover:text-white transition-all duration-300">
                 Mehr erfahren
-              </button>
+              </Link>
             </div>
           </div>
         </div>

@@ -94,19 +94,6 @@ const StrategySection = () => {
             </div>
           ))}
         </div>
-
-        {/* Footer CTA */}
-        <div className="text-center">
-          <p className="text-gray-600 text-lg">
-            Du möchtest persönlich beraten werden?{" "}
-            <a
-              href="#"
-              className="text-[#1a2e26] font-bold border-b-2 border-[#f5a623] hover:opacity-70 transition-opacity pb-1 inline-flex items-center gap-1"
-            >
-              Gespräch buchen <span className="text-xl">→</span>
-            </a>
-          </p>
-        </div>
       </div>
     </section>
   );

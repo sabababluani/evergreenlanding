@@ -1,5 +1,6 @@
 import React from "react";
 import { Star, Check } from "lucide-react";
+import Link from "next/link";
 
 const PocketSection = () => {
   return (
@@ -59,12 +60,12 @@ const PocketSection = () => {
                   <Check size={18} className="text-[#f5a623]" strokeWidth={3} />
                   <span className="text-sm text-gray-700">
                     Auch für Kinder: Eigenes Depot mit passender Strategie →{" "}
-                    <a
-                      href="#"
+                    <Link
+                      href="/kinderdepot"
                       className="text-[#1a2e26] font-bold border-b border-[#f5a623] hover:opacity-70"
                     >
                       Kinderdepot entdecken
-                    </a>
+                    </Link>
                   </span>
                 </li>
               </ul>

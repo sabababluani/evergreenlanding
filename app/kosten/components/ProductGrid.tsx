@@ -1,4 +1,5 @@
 import { CheckCircle2 } from "lucide-react";
+import Link from "next/link";
 
 export const ProductGrid = () => {
   const products = [
@@ -100,13 +101,13 @@ export const ProductGrid = () => {
                   ))}
                 </ul>
               </div>
-              <div className="p-8 pt-0 text-center">
-                <button className="w-full bg-[#FF9E2C] text-white font-bold py-4 rounded-xl hover:bg-[#e68a1b] transition-colors mb-4">
+              <div className="p-8 pt-0 text-center flex flex-col items-center">
+                <Link href={"/register"} className="w-full bg-[#FF9E2C] text-white font-bold py-4 rounded-xl hover:bg-[#e68a1b] transition-colors mb-4">
                   {item.btn}
-                </button>
-                <button className="text-sm font-bold text-gray-900 border-b border-gray-900 pb-0.5">
+                </Link>
+                <Link href={"/zinsen"} className="text-sm font-bold text-gray-900 border-b border-gray-900 pb-0.5">
                   Mehr erfahren →
-                </button>
+                </Link>
               </div>
             </div>
           ))}

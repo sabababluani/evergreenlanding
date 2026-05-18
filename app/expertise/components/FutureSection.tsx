@@ -20,7 +20,7 @@ const benefits = [
 
 export default function FutureSection() {
   return (
-    <section className="relative overflow-hidden bg-[#f3f3f3] px-4 py-20">
+    <section className="relative overflow-hidden px-4 py-20">
       <div className="mx-auto max-w-7xl">
         <h2 className="mx-auto max-w-4xl text-center text-[42px] font-light leading-[0.95] tracking-[-0.05em] text-[#001f14] md:text-[64px]">
           Weil kluge Entscheidungen <br />
